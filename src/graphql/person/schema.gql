@@ -1,0 +1,147 @@
+type Person @gen implements Node  {
+  id: ID! @id
+  fullname: String!
+  email: String!
+  createdAt: Date!
+  updatedAt: Date!
+  apps: [App!]! @edge(name: HAS_ACCESS_TO)
+}
+
+enum Person_Problem {
+  PERMISSION_DENIED
+}
+
+enum Person_CreateProblem {
+  EMAIL_ALREADY_IN_USE
+}
+
+enum Person_UpdateProblem {
+  ID_NOT_FOUND
+  EMAIL_ALREADY_IN_USE
+}
+
+enum Person_DeleteProblem {
+  ID_NOT_FOUND
+}
+
+"""
+
+🤖 ( THIS SHOULD BE GENERATED ) 🤖
+
+"""
+
+extend type Queries {
+  # Find people matching the filter
+  person(
+    filter: Person_Filter
+    sort: [Person_Sort!]
+    pagination: Pagination = { skip = 0, limit = 25 }
+  ): [Person!]!
+
+  # Find the total number of people matching the filter
+  person_count(filter: Person_Filter): Int!
+}
+
+input Person_Filter {
+  name: String_Filter
+  email: String_Filter
+  createdAt: Date_Filter
+  updatedAt: Date_Filter
+  apps: Edge_Filter
+  
+  or: [Person_Filter!]
+  not: Person_Filter
+}
+
+input Person_Sort {
+  direction: SortDirection!
+  field: Person_SortField!
+}
+
+enum Person_SortField {
+  NAME
+  EMAIL
+  CREATED_AT
+  UPDATED_AT
+}
+
+
+
+extend type Mutations {
+  # allows bulk operations for one query
+  person(
+    create: [Person_Create!]
+    update: [Person_Update!]
+    delete: [ID!]
+  ): Person_Result
+}
+
+input Person_Create {
+  name: String!
+  email: String!
+  apps: [ID!]!
+}
+
+input Person_Update {
+  id: ID!
+  name: String
+  email: String
+  apps: [ID!]
+}
+
+union Person_Result
+  = Person_Success
+  | Person_PartialSuccess
+  | Person_Failure
+
+type Person_Success {
+  create: [Person!]
+  update: [Person!]
+  delete: [Person!]
+}
+
+type Person_PartialSuccess {
+  create: [Person_CreateResult!]
+  update: [Person_UpdateResult!]
+  delete: [Person_DeleteResult!]
+}
+
+type Person_Failure implements Error {
+  message: String!
+  problem: Person_Problem!
+}
+
+union PersonCreate_Result
+  = Person
+  | Person_CreateFailure
+
+union PersonUpdate_Result
+  = Person
+  | Person_UpdateFailure
+
+union PersonDelete_Result
+  = Person
+  | Person_DeleteFailure
+
+type Person_CreateFailure implements Error {
+  message: String!
+  problem: Person_CreateProblem!
+}
+
+type Person_UpdateFailure implements Error {
+  message: String!
+  problem: Person_UpdateProblem!
+}
+
+type Person_DeleteFailure implements Error {
+  message: String!
+  problem: Person_DeleteProblem!
+}
+
+interface Node {
+  id: ID!
+}
+
+interface Error {
+  message: String!
+}
