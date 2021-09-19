@@ -88,7 +88,7 @@ For every use-case in the `useCases` directory, there is an associated `.test.ts
 
 Each test also allows you to override it's dependencies- so you can mock different edge cases easily.
 
-Check out the example at [./useCases/personCreate.test.ts](./useCases/personCreate.test.ts), or run it from the console with `npx jest`:
+Check out the example at [useCases/personCreate.test.ts](./src/useCases/personCreate.test.ts), or run it from the console with `npx jest`:
 
 ```
 $ npx jest
