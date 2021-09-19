@@ -73,7 +73,7 @@ extend type Mutations {
     create: [Person_Create!]
     update: [Person_Update!]
     delete: [ID!]
-  ): Person_Result
+  ): Person_Result!
 }
 
 input Person_Create {
@@ -95,15 +95,15 @@ union Person_Result
   | Person_Failure
 
 type Person_Success {
-  create: [Person!]
-  update: [Person!]
-  delete: [Person!]
+  create: [Person!]!
+  update: [Person!]!
+  delete: [Person!]!
 }
 
 type Person_PartialSuccess {
-  create: [Person_CreateResult!]
-  update: [Person_UpdateResult!]
-  delete: [Person_DeleteResult!]
+  create: [Person_CreateResult!]!
+  update: [Person_UpdateResult!]!
+  delete: [Person_DeleteResult!]!
 }
 
 type Person_Failure implements Error {
