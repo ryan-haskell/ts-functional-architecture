@@ -1,9 +1,9 @@
 import { Response, UseCase, UseCaseRunner } from "@core/useCase"
 
-export type TestSuite<input, output, problem, deps> =
+export type TestSuite<input, output, problem, deps = {}> =
   Test<input, output, problem, deps>[]
 
-type Test<input, output, problem, deps = {}> = {
+type Test<input, output, problem, deps> = {
   when: string
   it: string,
   given: input
