@@ -47,7 +47,7 @@ export type Person = {
 }
 
 export const Person = {
-  firstName: (person: Person) => string
+  firstName: (person: Person) => string,
   lastName: (person: Person) => string
 }
 ```
