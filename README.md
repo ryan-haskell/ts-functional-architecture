@@ -37,7 +37,7 @@ For developer convenience, this is also a good place to define simple utility op
 
 An example of this might be getting the `Person.firstName`
 
-```
+```ts
 import { Id } from '@domain/id'
 
 export type Person = {
