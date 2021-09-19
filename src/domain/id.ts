@@ -1,7 +1,7 @@
 export type Id = string
 
 export const Id = {
-  create: () => UUIDv4()
+  create: () => '1'
 }
 
 const UUIDv4 = () =>

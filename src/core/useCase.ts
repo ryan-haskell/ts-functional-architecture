@@ -44,7 +44,7 @@ type UseCaseDependency = {
 
 // UseCaseRunner - the only way to actually execute a use case!
 export const UseCaseRunner = {
-  run: <input, output, problem = never, dependencies extends UseCaseDependencies = {}>(
+  run: async <input, output, problem = never, dependencies extends UseCaseDependencies = {}>(
     useCase: UseCase<input, output, problem, dependencies>,
     input: input,
     deps: dependencies
@@ -54,12 +54,12 @@ export const UseCaseRunner = {
     const runUseCase = <i, o, p>(useCase: UseCase<i, o, p>, input: i) =>
       runUseCaseWithDeps(useCase, input, {})
 
-    const runUseCaseWithDeps = <i, o, p, d extends UseCaseDependencies>(
+    const runUseCaseWithDeps = async <i, o, p, d extends UseCaseDependencies>(
       useCase: UseCase<i, o, p, d>,
       input: i,
       deps: d
-    ): o | p => {
-      const response = useCase[run]({
+    ): Promise<o | p> => {
+      const response = await useCase[run]({
         input,
         UseCase: {
           run: runUseCase,
@@ -71,7 +71,7 @@ export const UseCaseRunner = {
       return Result.toUnion(response.result)
     }
 
-    return useCase[run]({
+    const response = await useCase[run]({
       ...deps,
       input,
       UseCase: {
@@ -79,6 +79,11 @@ export const UseCaseRunner = {
         runWithDeps: runUseCaseWithDeps
       }
     })
+
+    return {
+      result: response.result,
+      auditLogs: auditLogs.concat(response.auditLogs)
+    }
   }
 }
 

@@ -3,20 +3,20 @@ import { AuditLog } from "@domain/auditLog"
 import { Person } from "@domain/person"
 import { PersonRepository } from "@repos/person"
 
-type Input = {
+export type Input = {
   fullname: string
   email: string
 }
 
-type Output = {
+export type Output = {
   person: Person
 }
 
-enum Problem {
+export enum Problem {
   EMAIL_IN_USE = "EMAIL_IN_USE"
 }
 
-interface Dependencies extends UseCaseDependencies {
+export interface Dependencies extends UseCaseDependencies {
   Repo: { Person: PersonRepository }
 }
 

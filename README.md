@@ -81,3 +81,25 @@ Because use cases have their dependencies passed in with their input, they becom
 
 - User input / output (that's the `graphql` layer's job!)
 - Saving to databases or calling APIs (that's the `repo` layer's job!)
+
+#### __Testing__
+
+For every use-case in the `useCases` directory, there is an associated `.test.ts` file. Each one of these files define a test suite that describes the expected output for a given input.
+
+Each test also allows you to override it's dependencies- so you can mock different edge cases easily.
+
+Check out the example at [./useCases/personCreate.test.ts](./useCases/personCreate.test.ts), or run it from the console with `npx jest`:
+
+```
+$ npx jest
+
+ PASS  src/useCases/personCreate.test.ts
+  ✓ When email address is already taken, it returns a problem. (2 ms)
+  ✓ When all input is valid, it creates a new user.
+
+Test Suites: 1 passed, 1 total
+Tests:       2 passed, 2 total
+Snapshots:   0 total
+Time:        0.613 s, estimated 1 s
+Ran all test suites.
+```
